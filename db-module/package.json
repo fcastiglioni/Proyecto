@@ -9,7 +9,7 @@
   "scripts": {
     "lint": "standard",
     "setup": "SET DEBUG=platziverse:* && node setup.js",
-    "test": "jest",
+    "test": "jest --forceExit",
     "fix": "standard -- --fix"
   },
   "repository": {

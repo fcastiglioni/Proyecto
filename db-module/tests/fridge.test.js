@@ -1,15 +1,28 @@
 'use strict'
-
-const config = require('.../setup/config')
+const config= {
+    database: process.env.DB_NAME || 'Proyecto',
+    username: process.env.DB_USER || 'alexis',
+    password: process.env.DB_PASS || 'contra',
+    host: process.env.DB_HOST || 'localhost',
+    dialect: 'mysql',
+    loggin: s => debug(s), //para ver que mensajes esta devolviendo la base de date
+    setup: true  //crea la base de datos en servidor y con el force true (en index.js) si existe la borra y crea una nueva
+  }
 
 let db = null
 
 beforeEach(async () => {
-    const SetUpDatabase = require('../') //poniendo así requiero automaticamente el archivo main.
-    db = await SetUpDatabase(config)
+    const dbInitAndRelate = require('../') //poniendo así requiero automaticamente el archivo main.
+    db = await dbInitAndRelate(config)
 })
 
-test('Pruebaaa', t => {
-    t.truthy(db.Fridge, 'FUncionooo')
+test('Pruebaaa',async ()  => {
+    
+    await expect(db.Fridge).toBeTruthy()
+   
 })
+
+
+
+
 
