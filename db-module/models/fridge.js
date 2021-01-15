@@ -1,6 +1,5 @@
 'use strict'
 const Sequelize = require('sequelize')
-const config = require('../../setup/config')
 const SetUpDatabase = require('../lib/db')
 
 function setUpFridgeModel (config) {

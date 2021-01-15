@@ -20,14 +20,14 @@ async function setUp () {
     ])
 
     if (!answer.setup) {
-      return console.log(`${chalk.yellow('no')}` 
-        + `${chalk.red('thi')}` + `${chalk.green('ng')}` 
-          + `${chalk.blueBright(' happ')}`  
-            + `${chalk.redBright ('ened ')}` 
-              + `${chalk.magentaBright(' :)')}`)
+      return console.log(`${chalk.yellow('no')}` +
+        `${chalk.red('thi')}` + `${chalk.green('ng')}` +
+          `${chalk.blueBright(' happ')}` +
+            `${chalk.redBright('ened ')}` +
+              `${chalk.magentaBright(' :)')}`)
     }
   }
-  
+
   await db(config).catch(handleFatalError)
   console.log(`${chalk.green('success!!!!!')}`)
   process.exit(0)// creo que es terminar el proceso bien

@@ -1,7 +1,11 @@
 'use strict'
 const setupDatabase = require('./lib/db')
-const setupFridgeModel = require('./models/fridge')
-const setupMetricModel = require('./models/metrics')
+const setupFridgeModel = {
+    hasMany: function() {}
+}
+const setupMetricModel =  {
+    belongsTo: function(){}
+}
 const defaults = require('defaults')
 
 function defaultConfig (config) {
