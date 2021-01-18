@@ -1,28 +1,36 @@
 'use strict'
 const proxyquire = require('proxyquire')
+const dbInitAndRelate = require('../index')
+const MockFridge = require('../__mocks__/fridge')
+const MockMetric = require('../__mocks__/metrics')
+
+
 
 const config = {
   loggin: function () {}
 }
 
 let db = null
-let MetricStub = {
-    belongsTo: function(){}
-}
-let FridgeStub = null
 
 beforeEach(async () => {
-  FridgeStub = {
-      hasMany: function() {}
-  }
-  //de esta manera cuando solicitamos el fridge y las metricas (requeridas) en el index lo cambio con el proxyquire a los stubs creados . 
-  const dbInitAndRelate = proxyquire('../', {   // poniendo '../ ' requiero automaticamente el archivo main.
-    './models/fridge': () => FridgeStub,        
-    './models/metrics': () => MetricStub
-  })
+  jest.mock('../models/fridge', () => jest.fn(() => '../__mocks__/fridge'))
+  jest.mock('../models/metrics', () => jest.fn(() => '../__mocks__/metrics'))
+
   db = await dbInitAndRelate(config)
 })
 
+afterEach(() => {
+  // After each test clear all mocks because one implementation
+  // can be used in many test cases so it doesn't accumulate
+  // the times had been called
+  jest.clearAllMocks()
+})
+
+
 test('Pruebaaa', async () => {
   await expect(db.Fridge).toBeTruthy()
+})
+
+test('AgentModel.hasMany should be called', () => {
+  expect(MockFridge.hasMany).toHaveBeenCalled()
 })
