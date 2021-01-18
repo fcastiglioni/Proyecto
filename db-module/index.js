@@ -36,7 +36,7 @@ async function dbInitAndRelate (config) {
   sequelize.sync() // hace toda la definicion de los modelos, si no esta
 
   const Metric = {}
-  const Fridge = {}
+  const Fridge = setupFridgeModel(FridgeModel)
 
   return {
     Fridge,

@@ -1,10 +1,14 @@
 'use strict'
 const proxyquire = require('proxyquire')
 const dbInitAndRelate = require('../index')
-const MockFridge = require('../__mocks__/fridge')
-const MockMetric = require('../__mocks__/metrics')
+const MockFridge = require('../__mocks__/fridgeService')
+const MockMetric = require('../__mocks__/metricsService')
+const MockFixture = require('../__mocks__/fridgeFixture')
 
 
+// seejecuta al tope de ejecucion
+jest.mock('../models/fridge', () => jest.fn(() => MockFridge))
+jest.mock('../models/metrics', () => jest.fn(() => MockMetric))
 
 const config = {
   loggin: function () {}
@@ -13,9 +17,6 @@ const config = {
 let db = null
 
 beforeEach(async () => {
-  jest.mock('../models/fridge', () => jest.fn(() => '../__mocks__/fridge'))
-  jest.mock('../models/metrics', () => jest.fn(() => '../__mocks__/metrics'))
-
   db = await dbInitAndRelate(config)
 })
 
@@ -26,11 +27,22 @@ afterEach(() => {
   jest.clearAllMocks()
 })
 
-
 test('Pruebaaa', async () => {
   await expect(db.Fridge).toBeTruthy()
 })
 
-test('AgentModel.hasMany should be called', () => {
-  expect(MockFridge.hasMany).toHaveBeenCalled()
+test('MockFridge.hasMany should be called, and calledWith', () => {
+  expect(MockFridge.hasMany).toHaveBeenCalled();
+  expect(MockFridge.hasMany).toHaveBeenCalledWith(MockMetric)
 })
+
+test('MockMetric.belongsTo should be called, and calledWith', () => {
+  expect(MockMetric.belongsTo).toHaveBeenCalled();
+  expect(MockMetric.belongsTo).toHaveBeenCalledWith(MockFridge)
+})
+
+test('Fridge find by id', async () => {
+  const fridgeFound = await db.Fridge.findById(0)
+  expect(fridgeFound).toBe(MockFixture.findById(0))
+})
+

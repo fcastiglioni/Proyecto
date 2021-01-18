@@ -1,6 +1,5 @@
 {
   "name": "db-module",
-
   "version": "1.0.0",
   "description": "Database module",
   "main": "index.js",
@@ -42,6 +41,6 @@
     "sqlite3": "^5.0.0"
   },
   "jest": {
-    "verbose" : true
+    "verbose": true
   }
 }
