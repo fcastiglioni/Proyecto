@@ -1,6 +1,7 @@
 'use strict'
 const setupDatabase = require('./lib/db')
 const setupFridgeModel = require('./models/fridge')
+const setupFridge = require('./lib/fridge') 
 const setupMetricModel = require('./models/metrics')
 const defaults = require('defaults')
 
@@ -36,7 +37,7 @@ async function dbInitAndRelate (config) {
   sequelize.sync() // hace toda la definicion de los modelos, si no esta
 
   const Metric = {}
-  const Fridge = setupFridgeModel(FridgeModel)
+  const Fridge = setupFridge(FridgeModel)
 
   return {
     Fridge,

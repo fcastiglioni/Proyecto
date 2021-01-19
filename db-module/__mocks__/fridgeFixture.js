@@ -74,7 +74,7 @@ const newFridge = {
 
 module.exports = {
   newFridge,
-  findOne: fridges[0],
+  //findOne: fridges[0],
   findAll: fridges,
   findConnected: fridges.filter((fridge) => fridge.connected),
   findByUsername: (username) =>

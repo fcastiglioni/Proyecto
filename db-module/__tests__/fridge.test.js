@@ -1,5 +1,5 @@
 'use strict'
-const proxyquire = require('proxyquire')
+
 const dbInitAndRelate = require('../index')
 const MockFridge = require('../__mocks__/fridgeService')
 const MockMetric = require('../__mocks__/metricsService')
@@ -15,6 +15,14 @@ const config = {
 }
 
 let db = null
+let idExample = 1
+let uuid = '4bf322ab-d9f7-4166-a99b-f004203fb7de'
+const fridgeExample = MockFixture.newFridge
+const uuidArgs = {
+  where: {
+    uuid
+  }
+}
 
 beforeEach(async () => {
   db = await dbInitAndRelate(config)
@@ -42,7 +50,34 @@ test('MockMetric.belongsTo should be called, and calledWith', () => {
 })
 
 test('Fridge find by id', async () => {
-  const fridgeFound = await db.Fridge.findById(0)
-  expect(fridgeFound).toBe(MockFixture.findById(0))
+  const fridgeFound = await db.Fridge.findById(idExample)
+
+  expect(MockFridge.findById).toHaveBeenCalledTimes(1)
+  expect(MockFridge.findById).toHaveBeenCalledWith(idExample)
+  expect(fridgeFound).toBe(MockFixture.findById(idExample))
 })
 
+test('Fridge find by uuid', async () => {
+  const fridgeFound = await db.Fridge.findByUuid(uuid)
+
+  expect(MockFridge.findOne).toHaveBeenCalledTimes(1)
+  expect(MockFridge.findOne).toHaveBeenCalledWith(uuidArgs)
+  expect(fridgeFound).toBe(MockFixture.findByUuid(uuid))
+
+})
+
+test('Fridge Create or Update, with exists Fridge', async () => {
+
+  const fridgeFound = await db.Fridge.createOrUpdate(fridgeExample)
+
+  expect(mockAgentService.newFridge).toHaveBeenCalledTimes(1)
+ /* expect(mockAgentService.findOne).toHaveBeenCalledWith(uuidCondition)
+  expect(mockAgentService.update).toHaveBeenCalledTimes(1)
+  expect(mockAgentService.update).toHaveBeenCalledWith(
+    oneAgent,
+    uuidCondition
+  )*/
+
+  expect(fridgeFound).toBe(fridgeExample)
+
+})
