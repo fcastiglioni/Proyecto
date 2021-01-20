@@ -2,19 +2,20 @@
 const fridgeMock = require('./fridgeFixture')
 
 // jest.fn copn esto digo quees una funcion mock para poder usarla en los test, tambine puedo suar spy
-const findId =  {
+const FridgeFunctions =  {
     hasMany: jest.fn(),
     findById: jest.fn((id) => Promise.resolve(fridgeMock.findById(id))),
-    findByUuid: jest.fn((uuid) => Promise.resolve(fridgeMock.findByUuid(uuid))),
-    findOne: jest.fn((uuid) => Promise.resolve(fridgeMock.findByUuid(uuid)))
-    /*CreateOrUpdate: jest.fn((fridgeToFind) =>{ 
-            const fridgeExisting = await fridgeMock.findById(fridgeToFind.id)
-
-            if(fridgeExisting){
-                
-            }
-            
-    })*/
+    findOne: jest.fn((condition) => Promise.resolve(fridgeMock.findOne)),
+    create: jest.fn(() => Promise.resolve(fridgeMock.findOne)),
+    update : jest.fn(() => Promise.resolve({
+        toJSON () { return fridgeMock.newFrdige }
+      })),
+    findAll: jest.fn((condition) => {
+        if(typeof condition !== "undefined"){
+            return Promise.resolve(fridgeMock.findConnected)    
+        }
+        return Promise.resolve(fridgeMock.findAll)         
+    })  
 }
 
-module.exports = findId
+module.exports = FridgeFunctions

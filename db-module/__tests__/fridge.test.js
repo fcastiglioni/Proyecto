@@ -17,10 +17,16 @@ const config = {
 let db = null
 let idExample = 1
 let uuid = '4bf322ab-d9f7-4166-a99b-f004203fb7de'
-const fridgeExample = MockFixture.newFridge
+const fridgeExample = MockFixture.findOne
 const uuidArgs = {
   where: {
     uuid
+  }
+}
+const connectedCondition = { where: { connected: true } }
+const argNewFridge = {
+  where : {
+    uuid : MockFixture.newFridge.uuid
   }
 }
 
@@ -67,17 +73,36 @@ test('Fridge find by uuid', async () => {
 })
 
 test('Fridge Create or Update, with exists Fridge', async () => {
-
   const fridgeFound = await db.Fridge.createOrUpdate(fridgeExample)
 
-  expect(mockAgentService.newFridge).toHaveBeenCalledTimes(1)
- /* expect(mockAgentService.findOne).toHaveBeenCalledWith(uuidCondition)
-  expect(mockAgentService.update).toHaveBeenCalledTimes(1)
-  expect(mockAgentService.update).toHaveBeenCalledWith(
-    oneAgent,
-    uuidCondition
-  )*/
+  expect(MockFridge.findOne).toHaveBeenCalledWith(uuidArgs)
+  expect(MockFridge.update).toHaveBeenCalledTimes(1)
+  expect(MockFridge.update).toHaveBeenCalledWith(
+    fridgeExample,
+    uuidArgs
+  )
 
   expect(fridgeFound).toBe(fridgeExample)
+})
 
+test('Fridge Create or Update, create new Fridge', async () => {
+  const fridgeFound = await db.Fridge.createOrUpdate(MockFixture.newFridge)
+
+  expect(MockFridge.findOne).toHaveBeenCalledWith(argNewFridge)
+  //expect(MockFridge.create).toHaveBeenCalledTimes(1)
+  //expect(MockFridge.create).toHaveBeenCalledWith(MockFixture.newFridge)
+
+  //expect(fridgeFound).toBe(MockFixture.newFridge)
+})
+
+test('Agent.findAll should be called and return all the agents', async () => {
+  const fridgesFound = await db.Fridge.findAll()
+  expect(fridgesFound).toBe(MockFixture.findAll)
+})
+
+test('Agent.findConnected should return the connected agents', async () => {
+  const connectedFridges = await db.Fridge.findConnected()
+  expect(MockFridge.findAll).toHaveBeenCalledTimes(1)
+  expect(MockFridge.findAll).toHaveBeenCalledWith(connectedCondition)
+  expect(connectedFridges).toBe(MockFixture.findConnected)
 })

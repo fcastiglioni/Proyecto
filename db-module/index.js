@@ -2,6 +2,7 @@
 const setupDatabase = require('./lib/db')
 const setupFridgeModel = require('./models/fridge')
 const setupFridge = require('./lib/fridge') 
+const setupMetric = require('./lib/metric')
 const setupMetricModel = require('./models/metrics')
 const defaults = require('defaults')
 
@@ -34,9 +35,7 @@ async function dbInitAndRelate (config) {
     await sequelize.sync({ force: true })
   }
 
-  sequelize.sync() // hace toda la definicion de los modelos, si no esta
-
-  const Metric = {}
+  const Metric = setupMetric(MetricModel)
   const Fridge = setupFridge(FridgeModel)
 
   return {

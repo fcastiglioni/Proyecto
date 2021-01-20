@@ -62,7 +62,7 @@ const fridges = [
 
 const newFridge = {
   id: 1,
-  uuid: '4bf322ab-d9f7-4166-a99b-f324203fb7de',
+  uuid: '4bf322ab-d9f7-4166-a99b-f324203fb7df',
   name: 'neo',
   username: 'matrix',
   hostname: 'ionode',
@@ -74,9 +74,9 @@ const newFridge = {
 
 module.exports = {
   newFridge,
-  //findOne: fridges[0],
+  findOne: fridges[0],
   findAll: fridges,
-  findConnected: fridges.filter((fridge) => fridge.connected),
+  findConnected: fridges.filter((fridge) => fridge.connected === true),
   findByUsername: (username) =>
     fridge.filter((fridge) => fridge.username === username),
   findByUuid: (uuid) => fridges.find((fridge) => fridge.uuid === uuid),
