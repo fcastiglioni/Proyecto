@@ -6,12 +6,15 @@ const FridgeFunctions =  {
     hasMany: jest.fn(),
     findById: jest.fn((id) => Promise.resolve(fridgeMock.findById(id))),
     findOne: jest.fn((condition) => Promise.resolve(fridgeMock.findOne)),
-    create: jest.fn(() => Promise.resolve(fridgeMock.findOne)),
+    create: jest.fn(() => Promise.resolve(fridgeMock.newFridge)),
     update : jest.fn(() => Promise.resolve({
         toJSON () { return fridgeMock.newFrdige }
       })),
     findAll: jest.fn((condition) => {
         if(typeof condition !== "undefined"){
+            if(condition.username !== "undefined"){
+                return Promise.resolve(fridgeMock.findOne)
+            }
             return Promise.resolve(fridgeMock.findConnected)    
         }
         return Promise.resolve(fridgeMock.findAll)         

@@ -24,6 +24,11 @@ const uuidArgs = {
   }
 }
 const connectedCondition = { where: { connected: true } }
+const usernameCondition = {where:{
+    username: 'tpyett0',
+    connected : true
+}
+}
 const argNewFridge = {
   where : {
     uuid : MockFixture.newFridge.uuid
@@ -89,10 +94,10 @@ test('Fridge Create or Update, create new Fridge', async () => {
   const fridgeFound = await db.Fridge.createOrUpdate(MockFixture.newFridge)
 
   expect(MockFridge.findOne).toHaveBeenCalledWith(argNewFridge)
-  //expect(MockFridge.create).toHaveBeenCalledTimes(1)
-  //expect(MockFridge.create).toHaveBeenCalledWith(MockFixture.newFridge)
+  /*expect(MockFridge.create).toHaveBeenCalledTimes(1)
+  expect(MockFridge.create).toHaveBeenCalledWith(MockFixture.newFridge)
 
-  //expect(fridgeFound).toBe(MockFixture.newFridge)
+  expect(fridgeFound).toBe(MockFixture.newFridge)*/
 })
 
 test('Agent.findAll should be called and return all the agents', async () => {
@@ -102,7 +107,20 @@ test('Agent.findAll should be called and return all the agents', async () => {
 
 test('Agent.findConnected should return the connected agents', async () => {
   const connectedFridges = await db.Fridge.findConnected()
+
   expect(MockFridge.findAll).toHaveBeenCalledTimes(1)
   expect(MockFridge.findAll).toHaveBeenCalledWith(connectedCondition)
   expect(connectedFridges).toBe(MockFixture.findConnected)
+})
+
+test('Agent#findByUsername', async () => {
+  const fridgeFound = await db.Fridge.findByUsername('tpyett0')
+
+  const aux = usernameCondition.username
+  console.log(aux)
+
+  /*expect(MockFridge.findAll).toHaveBeenCalledTimes(1)
+  expect(MockFridge.findAll).toHaveBeenCalledWith(usernameCondition)
+
+  expected(fridgeFound).toBe('tpyett0')*/
 })
