@@ -90,11 +90,11 @@ server.on('published', async (packet, client) => {
 
         debug(`Fridge ${fridge.uuid} saved`)
 
-        // Notify Agent is Connected
+        // Notify fridge is Connected
         if (!clients.get(client.id)) {
           clients.set(client.id, fridge)
           server.publish({
-            topic: 'agent/connected',
+            topic: 'fridge/connected',
             payload: JSON.stringify({
               fridge: {
                 uuid: fridge.uuid,
@@ -117,7 +117,7 @@ server.on('published', async (packet, client) => {
             return handleError(e)
           }
 
-          debug(`Metric ${m.id} saved on agent ${fridge.uuid}`)
+          debug(`Metric ${m.id} saved on fridge ${fridge.uuid}`)
         }
       }
       break

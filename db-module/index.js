@@ -35,7 +35,7 @@ async function dbInitAndRelate (config) {
     await sequelize.sync({ force: true })
   }
 
-  const Metric = setupMetric(MetricModel)
+  const Metric = setupMetric(MetricModel, FridgeModel)
   const Fridge = setupFridge(FridgeModel)
 
   return {
