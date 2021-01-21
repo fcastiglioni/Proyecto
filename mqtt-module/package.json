@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "SET NODE_ENV=production && node server.js & redis-server",
-    "start-dev": " SET DEBUG=platziverse:* && nodemon server.js ",
+    "start-dev": " SET DEBUG=Proyecto:* && nodemon server.js ",
     "lint": "standard"
   },
   "repository": {
@@ -24,9 +24,12 @@
   },
   "dependencies": {
     "aedes": "^0.44.1",
+    "aedes-persistence-redis": "^8.0.0",
     "chalk": "^4.1.0",
     "db-module": "file:../db-module",
     "debug": "^4.3.1",
-    "mongodb": "^3.6.3"
+    "mongodb": "^3.6.3",
+    "mosca": "^2.8.3",
+    "redis": "^3.0.2"
   }
 }

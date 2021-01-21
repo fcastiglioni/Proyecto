@@ -1,37 +1,42 @@
 'use strict'
 
 const config = require('../setup/config')
-const debug = require('debug')('platziverse:mqtt')
-const aedes = require('aedes')()
+const debug = require('debug')('Proyecto:mqtt-module')
+const mosca = require('mosca')
+const redis = require('redis')
 const mongodb = require('mongodb')
 const chalk = require('chalk')
 const db = require('db-module')
 
+config.setup = false
+
 const { parsePayload } = require('./utils')
 
 const backend = {
-  type: 'mongodb',
-  mongodb,
-  return_buffers: true
-}
+    type: 'redis',
+    redis,
+    return_buffers: true
+  }
+  
+  const settings = {
+    port: 1883,
+    backend
+  }
 
-const server = require('net').createServer(aedes.handle)
-const port = 1883
-
-server.listen(port, function () {
-  console.log('server started and listening on port ', port)
-})
+  const server = new mosca.Server(settings)
 
 const clients = new Map()
 
 let Fridge, Metric
+
+
 
 server.on('clientConnected', client => {
   debug(`Client Connected: ${client.id}`)
   clients.set(client.id, null)
 })
 
-aedes.on('clientDisconnected', async (client) => {
+server.on('clientDisconnected', async (client) => {
   debug(`Client Disconnected: ${client.id}`)
   const fridge = clients.get(client.id)
 
@@ -60,7 +65,7 @@ aedes.on('clientDisconnected', async (client) => {
   }
 })
 
-aedes.on('published', async (packet, client) => {
+server.on('published', async (packet, client) => {
   debug(`Received: ${packet.topic}`)
 
   switch (packet.topic) {
@@ -121,7 +126,7 @@ aedes.on('published', async (packet, client) => {
   debug(`Payload: ${packet.payload}`)
 })
 
-aedes.on('ready', async () => {
+server.on('ready', async () => {
   const services = await db(config).catch(handleFatalError)
 
   Fridge = services.Fridge
@@ -130,7 +135,7 @@ aedes.on('ready', async () => {
   console.log(`${chalk.green('[mqtt]')} server is running`)
 })
 
-aedes.on('error', handleFatalError)
+server.on('error', handleFatalError)
 
 function handleFatalError (err) {
   console.error(`${chalk.red('[fatal error!! :( ]')} ${err.message}`)
@@ -139,7 +144,7 @@ function handleFatalError (err) {
 }
 
 function handleError (err) {
-  console.error(`${chalk.red('[fatal error!! :( ]')} ${err.message}`)
+  console.error(`${chalk.red('[ error!! :( ]')} ${err.message}`)
   console.error(err.stack)
 }
 
