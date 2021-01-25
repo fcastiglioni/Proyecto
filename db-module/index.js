@@ -1,9 +1,11 @@
 'use strict'
 const setupDatabase = require('./lib/db')
 const setupFridgeModel = require('./models/fridge')
+const setupRuleModel = require('./models/rules')
+const setupMetricModel = require('./models/metrics')
 const setupFridge = require('./lib/fridge') 
 const setupMetric = require('./lib/metric')
-const setupMetricModel = require('./models/metrics')
+const setupRule = require('./lib/rules')
 const defaults = require('defaults')
 
 function defaultConfig (config) {
@@ -25,6 +27,7 @@ async function dbInitAndRelate (config) {
   const sequelize = setupDatabase(config)
   const FridgeModel = setupFridgeModel(config)
   const MetricModel = setupMetricModel(config)
+  const RuleModel = setupRuleModel(config)
 
   FridgeModel.hasMany(MetricModel)
   MetricModel.belongsTo(FridgeModel)
@@ -37,10 +40,12 @@ async function dbInitAndRelate (config) {
 
   const Metric = setupMetric(MetricModel, FridgeModel)
   const Fridge = setupFridge(FridgeModel)
+  const Rule = setupRule(RuleModel)
 
   return {
     Fridge,
-    Metric
+    Metric,
+    Rule
   }
 }
 module.exports = dbInitAndRelate

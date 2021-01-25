@@ -3,7 +3,7 @@
 module.exports = function setupMetric (MetricModel, FridgeModel) {
   async function findByFridgeUuid (uuid) {
     return MetricModel.findAll({
-      attributes: ['type'],
+      attributes: ['type', 'value','createdAt' ],
       group: ['type'],
       include: [{
         attributes: [],

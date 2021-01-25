@@ -5,6 +5,7 @@ const express = require('express')
 const asyncify = require('express-asyncify')
 const db = require('db-module')
 const config = require('../setup/config')
+config.setup = false
 
 const api = asyncify(express.Router())
 
@@ -14,7 +15,7 @@ api.use('*', async (req, res, next) => {
   if (!services) {
     debug('Connecting to database')
     try {
-      services = await db(config.db)
+      services = await db(config)
     } catch (e) {
       return next(e)
     }
@@ -38,7 +39,7 @@ api.get('/fridges', async (req, res, next) => {
   res.send(fridges)
 })
 
-api.get('/fridg/:uuid', async (req, res, next) => {
+api.get('/fridge/:uuid', async (req, res, next) => {
   const { uuid } = req.params
 
   debug(`request to /agent/${uuid}`)
@@ -64,7 +65,7 @@ api.get('/metrics/:uuid', async (req, res, next) => {
 
   let metrics = []
   try {
-    metrics = await Metric.findByAgentUuid(uuid)
+    metrics = await Metric.findByFridgeUuid(uuid)
   } catch (e) {
     return next(e)
   }
