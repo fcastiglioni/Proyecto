@@ -1,0 +1,23 @@
+{
+  "name": "alert-module",
+  "version": "1.0.0",
+  "description": "Alert module",
+  "private" : true,
+  "main": "temperature.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fcastiglioni/Proyecto.git"
+  },
+  "author": "Alexis Federico",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fcastiglioni/Proyecto/issues"
+  },
+  "homepage": "https://github.com/fcastiglioni/Proyecto#readme",
+  "dependencies": {
+    "db-module": "file:../db-module"
+  }
+}

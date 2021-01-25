@@ -27,6 +27,7 @@
     "aedes-persistence-redis": "^8.0.0",
     "chalk": "^4.1.0",
     "db-module": "file:../db-module",
+    "alert-module": "file:../alert-module",
     "debug": "^4.3.1",
     "mongodb": "^3.6.3",
     "mosca": "^2.8.3",

@@ -34,10 +34,10 @@ module.exports = function setupFridge (RuleModel) {
     return RuleModel.findAll()
   }
 
-  function findConnected () {
+  function findByAtribute (atribute) {
     return RuleModel.findAll({
       where: {
-        connected: true
+        atribute: atribute
       }
     })
   }
@@ -56,7 +56,7 @@ module.exports = function setupFridge (RuleModel) {
     findById,
     findByUuid,
     findAll,
-    findConnected,
+    findByAtribute,
     findByUsername
   }
 }

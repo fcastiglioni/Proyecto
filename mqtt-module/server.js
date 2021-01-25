@@ -4,32 +4,30 @@ const config = require('../setup/config')
 const debug = require('debug')('Proyecto:mqtt-module')
 const mosca = require('mosca')
 const redis = require('redis')
-const mongodb = require('mongodb')
 const chalk = require('chalk')
 const db = require('db-module')
+const rules = require('alert-module')
 
 config.setup = false
 
 const { parsePayload } = require('./utils')
 
 const backend = {
-    type: 'redis',
-    redis,
-    return_buffers: true
-  }
-  
-  const settings = {
-    port: 1883,
-    backend
-  }
+  type: 'redis',
+  redis,
+  return_buffers: true
+}
 
-  const server = new mosca.Server(settings)
+const settings = {
+  port: 1883,
+  backend
+}
+
+const server = new mosca.Server(settings)
 
 const clients = new Map()
 
 let Fridge, Metric
-
-
 
 server.on('clientConnected', client => {
   debug(`Client Connected: ${client.id}`)
@@ -113,6 +111,7 @@ server.on('published', async (packet, client) => {
 
           try {
             m = await Metric.create(fridge.uuid, metric)
+            rules.minAndMax(metric)
           } catch (e) {
             return handleError(e)
           }
@@ -137,13 +136,13 @@ server.on('ready', async () => {
 
 server.on('error', handleFatalError)
 
-function handleFatalError (err) {
+function handleFatalError(err) {
   console.error(`${chalk.red('[fatal error!! :( ]')} ${err.message}`)
   console.error(err.stack)
   process.exit(1)
 }
 
-function handleError (err) {
+function handleError(err) {
   console.error(`${chalk.red('[ error!! :( ]')} ${err.message}`)
   console.error(err.stack)
 }
