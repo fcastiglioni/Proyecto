@@ -11,7 +11,7 @@ fridge.addMetric('rss', function getRss () {
   return process.memoryUsage().rss
 })
 
-fridge.addMetric('promiseMetric', function getRandomPromise () {
+fridge.addMetric('temperature', function getRandomPromise () {
   return Promise.resolve(Math.random())
 })
 

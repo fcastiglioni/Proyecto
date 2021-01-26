@@ -1,21 +1,32 @@
 'use strict'
-const db = require(db-module)
+const dbInitAndRelate = require('db-module')
+const config = require('../setup/config')
+const chalk = require('chalk')
 
 async function minAndMax(metricToExaminate) {
     try {
-        if(metricToExaminate.type.type == 'temperature'){
-            const maxDeclared = await parseInt(db.Rule.findByAtribute('temperature').max)
-            const maxGiven = await pareseInt(metricToExaminate.value)
-
-            if(maxDeclared< maxGiven){
-                //mensaje wpp
-                //email
-                console.log("Ta kenchi la heladera, you must be kidding")
-            }
+        console.log(`${chalk.yellow(metricToExaminate.type)}`)
+        if(metricToExaminate.type == 'temperature'){
+            const db = await dbInitAndRelate(config)
+            await console.log(`${chalk.blueBright(db.Rule.findByAtribute('temperature'))}`)
+            const maxDeclared = await parseFloat(db.Rule.findByAtribute('temperature').max)
+            const maxGiven = await parseFloat(metricToExaminate.value)
+            await ifMax(maxDeclared,maxGiven)
+            await console.log(`${maxDeclared} y ${maxGiven}`)
+            
         }
     }catch(execption){
         console.log(execption)
         console.error(execption)
     }
 }
-module.exports = minAndMax
+async function ifMax(maxDeclared, maxGiven){
+    if(maxDeclared< maxGiven){
+        //mensaje wpp
+        //email
+        console.log(`${chalk.yellow("Ta kenchi la heladera, you must be kidding")}`)
+    }
+    return
+}
+
+module.exports = {minAndMax}

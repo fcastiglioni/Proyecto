@@ -25,10 +25,11 @@
   "dependencies": {
     "aedes": "^0.44.1",
     "aedes-persistence-redis": "^8.0.0",
+    "alert-module": "file:../alert-module",
     "chalk": "^4.1.0",
     "db-module": "file:../db-module",
-    "alert-module": "file:../alert-module",
     "debug": "^4.3.1",
+    "jsonschema": "^1.2.6",
     "mongodb": "^3.6.3",
     "mosca": "^2.8.3",
     "redis": "^3.0.2"
