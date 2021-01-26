@@ -1,21 +1,21 @@
 'use strict'
 var nodemailer = require('nodemailer');
 
-function emailAlert() {
+function emailAlert(email, subject, text) {
 
     var transporter = nodemailer.createTransport({
         service: 'hotmail',
         auth: {
         user: 'fefoct@hotmail.com',
-        pass: ''
+        pass: 'Federico3271'
     }
     });
 
     var mailOptions = {
     from: 'fefoct@hotmail.com',
-    to: 'alesuarezaliano@gmail.com',
-    subject: 'Alerta!!!!',
-    text: 'Esta caliente'
+    to: email,
+    subject: subject,
+    text: text
     };
 
     transporter.sendMail(mailOptions, function(error, info){

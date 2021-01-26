@@ -26,12 +26,9 @@ async function minAndMax(metricToExaminate) {
 }
 async function ifMax(maxDeclared, maxGiven){
     if(maxDeclared< maxGiven){
-        //mensaje wpp
-        //email
-        console.log(`${chalk.yellow("Ta kenchi la heladera, you must be kidding")}`)
-        emailAlert()
+        emailAlert('alesuarezaliano@gmail.com','Alerta de temperatura!!', `La temperatura exedió el limite, es de : ${maxGiven}°C`)
         wpp.client
-        wpp.sendWpp()
+        wpp.sendWpp(59899045779, 'Ta kenchi la heladera, you must be kidding' + `La temperatura es: ${maxGiven}°C`)
     }
 }    
 

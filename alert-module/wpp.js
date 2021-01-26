@@ -10,8 +10,8 @@ client.connect()
     })
     .catch (err => console.log("unexpected error: " + err) )
     
-function sendWpp() {
-    client.sendTextMessage('59899045779@s.whatsapp.net', "oh hello there!") 
+function sendWpp(number, message) {
+    client.sendTextMessage(`${number}@s.whatsapp.net`, message) 
 }
 module.exports = {
             client,
