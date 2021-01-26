@@ -3,6 +3,7 @@ const db = require('db-module')
 const config = require('../setup/config')
 const chalk = require('chalk')
 const emailAlert = require('./email')
+const wpp = require('./wpp')
 
 async function minAndMax(metricToExaminate) {
     try {
@@ -29,6 +30,8 @@ async function ifMax(maxDeclared, maxGiven){
         //email
         console.log(`${chalk.yellow("Ta kenchi la heladera, you must be kidding")}`)
         emailAlert()
+        wpp.client
+        wpp.sendWpp()
     }
 }    
 
