@@ -29,7 +29,7 @@ api.use('*', async (req, res, next) => {
   next()
 })
 
-api.get('/fridges', auth(configAuth), async (req, res, next) => {
+api.get('/fridges', auth(configAuth.auth), async (req, res, next) => {
   debug('A request has come to /fridges')
 
   const { user } = req
@@ -70,7 +70,7 @@ api.get('/fridge/:uuid', async (req, res, next) => {
   res.send(fridge)
 })
 
-api.get('/metrics/:uuid', auth(configAuth), guard.check(['metrics:read']), async (req, res, next) => {
+api.get('/metrics/:uuid', auth(configAuth.auth), guard.check(['metrics:read']), async (req, res, next) => {
   const { uuid } = req.params
 
   debug(`request to /metrics/${uuid}`)
@@ -96,7 +96,7 @@ api.get('/metrics/:uuid/:type', async (req, res, next) => {
 
   let metrics = []
   try {
-    metrics = await Metric.findByTypeAgentUuid(type, uuid)
+    metrics = await Metric.findByTypeFridgeUuid(type, uuid)
   } catch (e) {
     return next(e)
   }

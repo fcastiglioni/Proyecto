@@ -7,7 +7,7 @@ const express = require('express')
 const asyncify = require('express-asyncify')
 const socketio = require('socket.io')
 const chalk = require('chalk')
-const PlatziverseAgent = require('platziverse-agent')
+const PlatziverseFridge = require('fridge-agent')
 
 const proxy = require('./proxy')
 const { pipe } = require('./utils')
@@ -16,7 +16,7 @@ const port = process.env.PORT || 8080
 const app = asyncify(express())
 const server = http.createServer(app)
 const io = socketio(server)
-const agent = new PlatziverseAgent()
+const fridge = new PlatziverseFridge()
 
 app.use(express.static(path.join(__dirname, 'public')))
 app.use('/', proxy)
@@ -25,7 +25,7 @@ app.use('/', proxy)
 io.on('connect', socket => {
   debug(`Connected ${socket.id}`)
 
-  pipe(agent, socket)
+  pipe(fridge, socket)
 })
 
 // Express Error Handler
@@ -50,5 +50,5 @@ process.on('unhandledRejection', handleFatalError)
 
 server.listen(port, () => {
   console.log(`${chalk.green('[platziverse-web]')} server listening on port ${port}`)
-  agent.connect()
+  fridge.connect()
 })

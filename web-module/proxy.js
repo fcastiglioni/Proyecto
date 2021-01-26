@@ -8,10 +8,10 @@ const { endpoint, apiToken } = require('./config')
 
 const api = asyncify(express.Router())
 
-api.get('/agents', async (req, res, next) => {
+api.get('/fridges', async (req, res, next) => {
   const options = {
     method: 'GET',
-    url: `${endpoint}/api/agents`,
+    url: `${endpoint}/api/fridges`,
     headers: {
       'Authorization': `Bearer ${apiToken}`
     },
@@ -28,11 +28,11 @@ api.get('/agents', async (req, res, next) => {
   res.send(result)
 })
 
-api.get('/agent/:uuid', async (req, res, next) => {
+api.get('/fridge/:uuid', async (req, res, next) => {
   const { uuid } = req.params
   const options = {
     method: 'GET',
-    url: `${endpoint}/api/agent/${uuid}`,
+    url: `${endpoint}/api/fridge/${uuid}`,
     headers: {
       'Authorization': `Bearer ${apiToken}`
     },
