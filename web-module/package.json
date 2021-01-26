@@ -1,0 +1,55 @@
+{
+  "name": "web-module",
+  "version": "1.0.0",
+  "description": "Web Dashboard",
+  "main": "server.js",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "chart.js": "^2.9.4",
+    "debug": "^4.3.1",
+    "express": "^4.17.1",
+    "express-asyncify": "^1.0.1",
+    "moment": "^2.29.1",
+    "fridge-agent": "file:../fridge-agent",
+    "random-material-color": "^1.0.5",
+    "request": "^2.88.2",
+    "request-promise-native": "^1.0.9",
+    "socket.io": "^3.0.5",
+    "socket.io-client": "^3.0.5",
+    "vue": "^2.6.12",
+    "vue-chartjs": "^3.5.1",
+    "vue-sweetalert-icons": "^4.3.0",
+    "vue-sweetalert2": "^4.1.1",
+    "vue-template-compiler": "^2.6.12"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "babelify": "^10.0.0",
+    "browserify": "^17.0.0",
+    "envify": "^4.1.0",
+    "nodemon": "^2.0.6",
+    "standard": "^16.0.3",
+    "terser": "^5.5.1",
+    "vueify": "^9.4.1"
+  },
+  "scripts": {
+    "start": "SET NODE_ENV=production && node server.js",
+    "prestart": "npm run build",
+    "build": "SET NODE_ENV=production && browserify -g envify -t babelify -t vueify -e client/app.js | terser -c -m -o public/bundle.js",
+    "start-dev": "SET DEBUG=platziverse:* && nodemon server.js",
+    "prestart-dev": "npm run build-dev",
+    "build-dev": "browserify -g envify -t babelify -t vueify -e client/app.js -o public/bundle.js",
+    "lint": "standard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fcastiglioni/platziverse.git"
+  },
+  "author": "Federico",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fcastiglioni/platziverse/issues"
+  },
+  "homepage": "https://github.com/fcastiglioni/platziverse#readme"
+}

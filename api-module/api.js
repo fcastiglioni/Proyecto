@@ -4,7 +4,10 @@ const debug = require('debug')('proyecto:api:routes')
 const express = require('express')
 const asyncify = require('express-asyncify')
 const db = require('db-module')
+const auth = require('express-jwt')
+const guard = require('express-jwt-permissions')()
 const config = require('../setup/config')
+const configAuth = require('./config-auth')
 config.setup = false
 
 const api = asyncify(express.Router())
@@ -26,12 +29,21 @@ api.use('*', async (req, res, next) => {
   next()
 })
 
-api.get('/fridges', async (req, res, next) => {
+api.get('/fridges', auth(configAuth), async (req, res, next) => {
   debug('A request has come to /fridges')
+
+  const { user } = req
+  if (!user || !user.username) {
+    return next(new Error('not authorized'))
+  }
 
   let fridges = []
   try {
-    fridges = await Fridge.findConnected()
+    if (user.admin) {
+      fridges = await Fridge.findConnected()
+    } else {
+      fridges = await Fridge.findByUsername(user.username)
+    }
   } catch (e) {
     return next(e)
   }
@@ -58,7 +70,7 @@ api.get('/fridge/:uuid', async (req, res, next) => {
   res.send(fridge)
 })
 
-api.get('/metrics/:uuid', async (req, res, next) => {
+api.get('/metrics/:uuid', auth(configAuth), guard.check(['metrics:read']), async (req, res, next) => {
   const { uuid } = req.params
 
   debug(`request to /metrics/${uuid}`)
