@@ -30,6 +30,8 @@ const moment = require('moment')
 const randomColor = require('random-material-color')
 const LineChart = require('./line-chart')
 const SweetAlertIcons = require('vue-sweetalert-icons')
+const {serverHost} = require('../config')
+
 module.exports = {
   name: 'metric',
   components: {
@@ -53,7 +55,7 @@ module.exports = {
       this.color = colorDesigned
       const options = {
         method: 'GET',
-        url: `http://localhost:8080/metrics/${uuid}/${type}`,
+        url: `${serverHost}/metrics/${uuid}/${type}`,
         json: true
       }
       let result
@@ -82,7 +84,7 @@ module.exports = {
 
       const optionsRuele = {
               method: 'GET',
-              url: `http://localhost:8080/rules`,
+              url: `${serverHost}/rules`,
               json: true
       }
 

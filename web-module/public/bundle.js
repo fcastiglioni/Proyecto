@@ -347,6 +347,8 @@ const moment = require('moment')
 const randomColor = require('random-material-color')
 const LineChart = require('./line-chart')
 const SweetAlertIcons = require('vue-sweetalert-icons')
+const {serverHost} = require('../config')
+
 module.exports = {
   name: 'metric',
   components: {
@@ -370,7 +372,7 @@ module.exports = {
       this.color = colorDesigned
       const options = {
         method: 'GET',
-        url: `http://localhost:8080/metrics/${uuid}/${type}`,
+        url: `${serverHost}/metrics/${uuid}/${type}`,
         json: true
       }
       let result
@@ -399,7 +401,7 @@ module.exports = {
 
       const optionsRuele = {
               method: 'GET',
-              url: `http://localhost:8080/rules`,
+              url: `${serverHost}/rules`,
               json: true
       }
 
@@ -476,7 +478,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-31019026", __vue__options__)
   }
 })()}
-},{"./line-chart":4,"moment":320,"random-material-color":366,"request-promise-native":372,"vue":500,"vue-hot-reload-api":497,"vue-sweetalert-icons":498,"vueify/lib/insert-css":502}],6:[function(require,module,exports){
+},{"../config":6,"./line-chart":4,"moment":320,"random-material-color":366,"request-promise-native":372,"vue":500,"vue-hot-reload-api":497,"vue-sweetalert-icons":498,"vueify/lib/insert-css":502}],6:[function(require,module,exports){
 (function (process){(function (){
 'use strict';
 
