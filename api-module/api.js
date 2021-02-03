@@ -12,7 +12,7 @@ config.setup = false
 
 const api = asyncify(express.Router())
 
-let services, Fridge, Metric
+let services, Fridge, Metric, Rule
 // con el * digo que para todas las rutas ejecuto el middelwere, al mfinal siempre se usa next, para que siga
 api.use('*', async (req, res, next) => {
   if (!services) {
@@ -25,8 +25,22 @@ api.use('*', async (req, res, next) => {
 
     Fridge = services.Fridge
     Metric = services.Metric
+    Rule = services.Rule
   }
   next()
+})
+
+api.get('/rules', auth(configAuth.auth), async (req, res, next) => {
+  debug('A request has come to /rules')
+
+  let rules = []
+  try {
+    rules = await Rule.findAll()
+  } catch (e) {
+    return next(e)
+  }
+
+  res.send(rules)
 })
 
 api.get('/fridges', auth(configAuth.auth), async (req, res, next) => {

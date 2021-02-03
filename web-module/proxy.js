@@ -8,6 +8,27 @@ const { endpoint, apiToken } = require('./config')
 
 const api = asyncify(express.Router())
 
+
+api.get('/rules', async (req, res, next) => {
+  const options = {
+    method: 'GET',
+    url: `${endpoint}/api/rules`,
+    headers: {
+      'Authorization': `Bearer ${apiToken}`
+    },
+    json: true
+  }
+
+  let result
+  try {
+    result = await request(options)
+  } catch (e) {
+    return next(new Error(e.error.error))
+  }
+
+  res.send(result)
+})
+
 api.get('/fridges', async (req, res, next) => {
   const options = {
     method: 'GET',

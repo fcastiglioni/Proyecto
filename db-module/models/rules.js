@@ -19,11 +19,11 @@ function setUpFridgeModel (config) {
       allowNull: false
     },
     max: { // desde qué computador se esta conectando el agente
-      type: Sequelize.STRING,
+      type: Sequelize.DOUBLE,
       allowNull: false
     },
     min: { // si tenemos la misma aplicacion corriendo multiples procesos
-      type: Sequelize.INTEGER,
+      type: Sequelize.DOUBLE,
       allowNull: false
     },
     state: { // si esta conectado o no

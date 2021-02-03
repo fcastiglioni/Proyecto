@@ -105,9 +105,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-08e9041e", __vue__options__)
+    hotAPI.createRecord("data-v-960b9dca", __vue__options__)
   } else {
-    hotAPI.reload("data-v-08e9041e", __vue__options__)
+    hotAPI.reload("data-v-960b9dca", __vue__options__)
   }
 })()}
 },{"../config":6,"request-promise-native":372,"socket.io-client":403,"vue":500,"vue-hot-reload-api":497,"vueify/lib/insert-css":502}],3:[function(require,module,exports){
@@ -285,9 +285,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-9ab82d36", __vue__options__)
+    hotAPI.createRecord("data-v-a831240a", __vue__options__)
   } else {
-    hotAPI.reload("data-v-9ab82d36", __vue__options__)
+    hotAPI.reload("data-v-a831240a", __vue__options__)
   }
 })()}
 },{"../config":6,"request-promise-native":372,"vue":500,"vue-hot-reload-api":497,"vueify/lib/insert-css":502}],4:[function(require,module,exports){
@@ -366,7 +366,8 @@ module.exports = {
   methods: {
     async initialize() {
       const { uuid, type } = this
-      this.color = randomColor.getColor()
+      colorDesigned =randomColor.getColor()
+      this.color = colorDesigned
       const options = {
         method: 'GET',
         url: `http://localhost:8080/metrics/${uuid}/${type}`,
@@ -395,9 +396,24 @@ module.exports = {
           data
         }]
       }
-      this.startRealtime()
+
+      const optionsRuele = {
+              method: 'GET',
+              url: `http://localhost:8080/rules`,
+              json: true
+      }
+
+      let resultRule = await request(optionsRuele)
+         
+      try {
+            resultRule = await request(optionsRuele)
+      } catch (e) {
+            this.error = e.message
+      }
+        
+      this.startRealtime(resultRule)
     },
-    startRealtime () {
+    startRealtime (resultRule) {
       const { type, uuid, socket } = this
       socket.on('fridge/message', payload => {
         if (payload.fridge.uuid === uuid) {
@@ -411,6 +427,16 @@ module.exports = {
             labels.shift()
             data.shift()
           }
+          
+          try {
+            if(metric.value > resultRule[0].max && metric.type == "temperature"){
+              this.color = '#e6193f'
+            }
+          }
+          catch(e){
+              this.error = e.error.error
+          }
+          
           // Add new elements
           labels.push(moment(metric.createdAt).format('HH:mm:ss'))
           data.push(metric.value)
@@ -422,6 +448,8 @@ module.exports = {
               data
             }]
           }
+
+          this.color = colorDesigned
         }
       })
     },
@@ -443,9 +471,9 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   module.hot.accept()
   module.hot.dispose(__vueify_style_dispose__)
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-37be0b90", __vue__options__)
+    hotAPI.createRecord("data-v-31019026", __vue__options__)
   } else {
-    hotAPI.reload("data-v-37be0b90", __vue__options__)
+    hotAPI.reload("data-v-31019026", __vue__options__)
   }
 })()}
 },{"./line-chart":4,"moment":320,"random-material-color":366,"request-promise-native":372,"vue":500,"vue-hot-reload-api":497,"vue-sweetalert-icons":498,"vueify/lib/insert-css":502}],6:[function(require,module,exports){
@@ -52684,30 +52712,36 @@ utils.intFromLE = intFromLE;
 arguments[4][65][0].apply(exports,arguments)
 },{"buffer":87,"dup":65}],194:[function(require,module,exports){
 module.exports={
-  "_from": "elliptic@^6.5.3",
+  "_args": [
+    [
+      "elliptic@6.5.3",
+      "C:\\Users\\mayco\\Desktop\\Arnaldo Castro\\Proyecto AC\\Proyecto\\Proyecto\\web-module"
+    ]
+  ],
+  "_development": true,
+  "_from": "elliptic@6.5.3",
   "_id": "elliptic@6.5.3",
   "_inBundle": false,
   "_integrity": "sha512-IMqzv5wNQf+E6aHeIqATs0tOLeOTwj1QKbRcS3jBbYkl5oLAserA8yJTT7/VyHUYG91PRmPyeQDObKLPpeS4dw==",
   "_location": "/elliptic",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "elliptic@^6.5.3",
+    "raw": "elliptic@6.5.3",
     "name": "elliptic",
     "escapedName": "elliptic",
-    "rawSpec": "^6.5.3",
+    "rawSpec": "6.5.3",
     "saveSpec": null,
-    "fetchSpec": "^6.5.3"
+    "fetchSpec": "6.5.3"
   },
   "_requiredBy": [
     "/browserify-sign",
     "/create-ecdh"
   ],
   "_resolved": "https://registry.npmjs.org/elliptic/-/elliptic-6.5.3.tgz",
-  "_shasum": "cb59eb2efdaf73a0bd78ccd7015a62ad6e0f93d6",
-  "_spec": "elliptic@^6.5.3",
-  "_where": "C:\\Users\\Usuario\\Documents\\pasantía\\Proyecto\\Proyecto\\web-module\\node_modules\\browserify-sign",
+  "_spec": "6.5.3",
+  "_where": "C:\\Users\\mayco\\Desktop\\Arnaldo Castro\\Proyecto AC\\Proyecto\\Proyecto\\web-module",
   "author": {
     "name": "Fedor Indutny",
     "email": "fedor@indutny.com"
@@ -52715,7 +52749,6 @@ module.exports={
   "bugs": {
     "url": "https://github.com/indutny/elliptic/issues"
   },
-  "bundleDependencies": false,
   "dependencies": {
     "bn.js": "^4.4.0",
     "brorand": "^1.0.1",
@@ -52725,7 +52758,6 @@ module.exports={
     "minimalistic-assert": "^1.0.0",
     "minimalistic-crypto-utils": "^1.0.0"
   },
-  "deprecated": false,
   "description": "EC cryptography",
   "devDependencies": {
     "brfs": "^1.4.3",

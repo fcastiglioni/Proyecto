@@ -3,7 +3,7 @@ const db = require('db-module')
 const config = require('../setup/config')
 const chalk = require('chalk')
 const emailAlert = require('./email')
-const wpp = require('./wpp')
+//const wpp = require('./wpp')
 
 async function minAndMax(metricToExaminate) {
     try {
@@ -15,7 +15,7 @@ async function minAndMax(metricToExaminate) {
             await console.log(`${chalk.blueBright(Temperaturerules[0])}`)
             const maxDeclared = await parseFloat(Temperaturerules[0].max)
             const maxGiven = await parseFloat(metricToExaminate.value)
-            await ifMax(maxDeclared,maxGiven)
+            //await ifMax(maxDeclared,maxGiven)
             await console.log(`${maxDeclared} y ${maxGiven}`)
             
         }

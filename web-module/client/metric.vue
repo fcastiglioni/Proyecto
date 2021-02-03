@@ -49,7 +49,8 @@ module.exports = {
   methods: {
     async initialize() {
       const { uuid, type } = this
-      this.color = randomColor.getColor()
+      colorDesigned =randomColor.getColor()
+      this.color = colorDesigned
       const options = {
         method: 'GET',
         url: `http://localhost:8080/metrics/${uuid}/${type}`,
@@ -78,9 +79,24 @@ module.exports = {
           data
         }]
       }
-      this.startRealtime()
+
+      const optionsRuele = {
+              method: 'GET',
+              url: `http://localhost:8080/rules`,
+              json: true
+      }
+
+      let resultRule = await request(optionsRuele)
+         
+      try {
+            resultRule = await request(optionsRuele)
+      } catch (e) {
+            this.error = e.message
+      }
+        
+      this.startRealtime(resultRule)
     },
-    startRealtime () {
+    startRealtime (resultRule) {
       const { type, uuid, socket } = this
       socket.on('fridge/message', payload => {
         if (payload.fridge.uuid === uuid) {
@@ -94,6 +110,16 @@ module.exports = {
             labels.shift()
             data.shift()
           }
+          
+          try {
+            if(metric.value > resultRule[0].max && metric.type == "temperature"){
+              this.color = '#e6193f'
+            }
+          }
+          catch(e){
+              this.error = e.error.error
+          }
+          
           // Add new elements
           labels.push(moment(metric.createdAt).format('HH:mm:ss'))
           data.push(metric.value)
@@ -105,6 +131,8 @@ module.exports = {
               data
             }]
           }
+
+          this.color = colorDesigned
         }
       })
     },
