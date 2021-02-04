@@ -1,0 +1,25 @@
+{
+  "name": "arduino-module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Ardunio module",
+  "main": "arduino.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fcastiglioni/Proyecto.git"
+  },
+  "author": "Alexis",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fcastiglioni/Proyecto/issues"
+  },
+  "homepage": "https://github.com/fcastiglioni/Proyecto#readme",
+  "dependencies": {
+    "fridge-agent": "file:../fridge-agent",
+    "johnny-five": "^2.0.0",
+    "serialport": "^9.0.6"
+  }
+}
