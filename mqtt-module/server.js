@@ -104,18 +104,17 @@ server.on('published', async (packet, client) => {
             })
           })
         }
-
+        
         // Store Metrics
         for (const metric of payload.metrics) {
           let m
-
+          
           try {
             m = await Metric.create(fridge.uuid, metric)
             rules.minAndMax(metric)
           } catch (e) {
             return handleError(e)
           }
-
           debug(`Metric ${m.id} saved on fridge ${fridge.uuid}`)
         }
       }
